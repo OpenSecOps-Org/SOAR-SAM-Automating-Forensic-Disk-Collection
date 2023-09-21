@@ -1,0 +1,29 @@
+# Deployment configuration
+
+repo-name    = "SOAR-SAM-Automating-Forensic-Disk-Collection"
+part-of      = 'soar'
+
+
+[[pre-SAM-CloudFormation]]
+name         = "INFRA-diskForensicImageBuilder"
+template     = 'Install_before_SAM/diskForensicImageBuilder.yaml'
+account      = '{security-account}'
+regions      = '{all-regions}'
+capabilities = 'CAPABILITY_NAMED_IAM'
+
+
+[SAM]
+stack-name   = "INFRA-SAM-Automating-Forensic-Disk-Collection"
+profile      = "security-account"
+regions      = '{all-regions}'
+capabilities = 'CAPABILITY_NAMED_IAM'
+
+
+[[post-SAM-CloudFormation]]
+name             = "INFRA-diskMember"
+template         = 'Install_after_SAM/diskMember.yaml'
+account          = 'ALL'
+regions          = '{all-regions}'
+separate-regions = true
+capabilities = 'CAPABILITY_NAMED_IAM'
+
