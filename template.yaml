@@ -11,7 +11,7 @@ Parameters:
     Description: AWS Organizations ID to Allow use of KMS key
   ArtifactBucketName:
     Type: String
-    Default: Delegat-SOAR-forensic-artifacts
+    Default: delegat-soar-forensic-artifacts
     Description: Base name for the regional S3 bucket used to store forensic artifacts (region will be added)
   ArtifactBucketExpirationInDays:
     Type: Number
@@ -269,7 +269,7 @@ Resources:
           - ServerSideEncryptionByDefault:
               KMSMasterKeyID: !Ref ForensicEncryptionKey
               SSEAlgorithm: 'aws:kms'
-      BucketName: !Sub '${ArtifactBucketName}-${AWS::Region}'
+      BucketName: !Sub '${ArtifactBucketName}-${AWS::AccountId}-${AWS::Region}'
       VersioningConfiguration:
         Status: Enabled
       LifecycleConfiguration:
@@ -430,7 +430,7 @@ Resources:
       Timeout: 180
       Environment:
         Variables:
-          EVIDENCE_BUCKET: !Sub '${ArtifactBucketName}-${AWS::Region}'
+          EVIDENCE_BUCKET: !Sub '${ArtifactBucketName}-${AWS::AccountId}-${AWS::Region}'
           LOG_GROUP: !Ref ForensicAuditLogGroupName
           ROLE_NAME: !Sub '${MemberAutomationRole}_${AWS::Region}'
 
