@@ -17,10 +17,10 @@ Parameters:
     Type: Number
     Default: 3650
     Description: The number of days before artifact bucket objects expire
-  ForensicsAMI:
+  ForensicsAMIs:
     Type: String
-    Default: ami-000000000000
-    Description: AMI identifier for forensics image
+    Default: "us-east-1: ami-000000000000, eu-west-1: ami-1111111111111"
+    Description: AMI identifier map for forensics image
 
   AllowInvokeFromAccountId:
     Type: String
@@ -520,7 +520,8 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          AMI_ID: !Ref ForensicsAMI
+          AMI_IDS: !Ref ForensicsAMIs
+          REGION: !Sub "${AWS::Region}"
           INSTANCE_PROFILE_NAME: !Sub '${EC2ForensicRole}_${AWS::Region}'
           SECURITY_GROUP: !GetAtt ForensicsCaptureSecurityGroup.GroupId
           VPC_ID: !Ref forensicsVPC

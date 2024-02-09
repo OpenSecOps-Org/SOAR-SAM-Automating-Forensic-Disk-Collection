@@ -21,10 +21,33 @@ import os
 import uuid
 import random
 
-amiID = os.environ['AMI_ID']
+
+# Function to parse the AMI IDs string and return the AMI ID for the given region
+def get_ami_id_for_region(ami_ids_str, region):
+    # Splitting the string into pairs
+    ami_ids_pairs = ami_ids_str.split(',')
+    
+    # Creating a dictionary from the pairs
+    ami_ids_map = {}
+    for pair in ami_ids_pairs:
+        # Splitting each pair by the colon and stripping spaces around keys and values
+        key, value = map(str.strip, pair.split(':'))
+        ami_ids_map[key] = value
+    
+    return ami_ids_map.get(region)
+
+# Environment variables
+ami_ids_str = os.environ['AMI_IDS']
+current_region = os.environ['REGION']
+
+# Get the AMI ID for the current region
+amiID = get_ami_id_for_region(ami_ids_str, current_region)
+
+# More environment variables
 instanceProfile = os.environ['INSTANCE_PROFILE_NAME']
 targetVPC = os.environ['VPC_ID']
 securityGroup = os.environ['SECURITY_GROUP']
+
 
 def lambda_handler(event, context):
     try:
