@@ -1,5 +1,8 @@
 # Change Log
 
+## v1.1.1
+    * Added SOAR monitoring of the state machine.
+
 ## v1.1.0
     * ForensicsAMI is now ForensicsAMIs and a map.
 
