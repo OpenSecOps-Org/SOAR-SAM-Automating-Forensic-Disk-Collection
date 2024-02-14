@@ -776,7 +776,7 @@ Resources:
   #
   #-------------------------------------------------------------------------------
 
-  AlarmASFFProcessor:
+  AlarmDiskForensicStepFunction:
     Type: AWS::CloudWatch::Alarm
     Properties:
       AlarmName: INFRA-DiskForensicStepFunction-SM-Failure-HIGH
