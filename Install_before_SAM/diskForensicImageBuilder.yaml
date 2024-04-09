@@ -2,6 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: AWS Cloudformation to deploy IR Image Builder Pipeline
 
 Parameters:
+
   IAMRegion:
     Type: String
     Description:
@@ -9,11 +10,18 @@ Parameters:
       Other regions will refer to those IAM resources using their ARNs.
       Only leave empty for single-region installations.
     Default: ''
+
   InstanceProfileName:
     Type: String
     Description: The name of the IAM Instance Profile to use. There is no
       need to change the default.
     Default: ImageBuilderForensicInstanceProfile
+
+
+  InstanceTypeList:
+    Type: String
+    Default: 'm5.large,t3.large'
+
 
 Conditions:
   IAMRegionBlank: !Equals
@@ -389,10 +397,7 @@ Resources:
     Properties:
       Description: Infrastructure config used to build disk forensic AMI
       InstanceProfileName: !Ref InstanceProfileName # Parametrised in two places
-      InstanceTypes:
-        - m5a.large
-        - m5.large # m5a.large isn't available in Stockholm
-        - t3.large
+      InstanceTypes: !Split [",", !Ref InstanceTypeList]
       Name: ForensicDiskImageBuildConfig
       TerminateInstanceOnFailure: true
       # ----- The following two properties have been added: -----
@@ -408,10 +413,7 @@ Resources:
     Properties:
       Description: Infrastructure config used to build disk forensic AMI
       InstanceProfileName: !Ref InstanceProfileName # Parametrised in two places
-      InstanceTypes:
-        - m5a.large
-        - m5.large # m5a.large isn't available in Stockholm
-        - t3.large
+      InstanceTypes: !Split [",", !Ref InstanceTypeList]
       Name: ForensicDiskImageBuildConfig
       TerminateInstanceOnFailure: true
       # ----- The following two properties have been added: -----

@@ -12,7 +12,7 @@ Parameters:
   ArtifactBucketName:
     Type: String
     Default: delegat-soar-forensic-artifacts
-    Description: Base name for the regional S3 bucket used to store forensic artifacts (region will be added)
+    Description: Base name for the regional S3 bucket used to store forensic artifacts (account ID and region will be added)
   ArtifactBucketExpirationInDays:
     Type: Number
     Default: 3650
@@ -36,6 +36,12 @@ Parameters:
     Description:
       Select Yes to terminate the rogue server after the initial snapshot has been captured.
       Select No to leave it running.
+
+  InstanceType:
+    Type: String
+    Description: The name of the IAM Instance Type to use
+    Default: 'm5.large'
+
 
   VPCCIDR:
     Type: String
@@ -87,7 +93,7 @@ Parameters:
 
 Globals:
   Function:
-    Runtime: python3.9
+    Runtime: python3.12
     Handler: lambda_function.lambda_handler
     MemorySize: 128
     Timeout: 15
@@ -525,6 +531,8 @@ Resources:
           INSTANCE_PROFILE_NAME: !Sub '${EC2ForensicRole}_${AWS::Region}'
           SECURITY_GROUP: !GetAtt ForensicsCaptureSecurityGroup.GroupId
           VPC_ID: !Ref forensicsVPC
+          INSTANCE_TYPE: !Ref InstanceType
+
 
   MountVolumeLambda:
     Type: AWS::Serverless::Function

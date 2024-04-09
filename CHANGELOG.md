@@ -1,5 +1,21 @@
 # Change Log
 
+## v1.2.1
+    * Python v3.12.2.
+    * `.python-version` file to support `pyenv`.
+
+## v1.2.0
+    * Parametrised the instance types used in diskForensicImageBuilder.
+
+## v1.1.4
+    * Parametrised the instance type used during forensics operations.
+      (The instance types used during production of the AMI remain to be done.)
+
+## v1.1.3
+    * Trying to run an m5a.large (hardcoded!) isn't a good idea as it doesn't exist
+      in all regions. Replaced it with "m5.large" for now, will parametrise it as
+      the next step.
+
 ## v1.1.2
     * Corrected alarm logical name.
 

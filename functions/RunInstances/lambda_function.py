@@ -47,6 +47,7 @@ amiID = get_ami_id_for_region(ami_ids_str, current_region)
 instanceProfile = os.environ['INSTANCE_PROFILE_NAME']
 targetVPC = os.environ['VPC_ID']
 securityGroup = os.environ['SECURITY_GROUP']
+INSTANCE_TYPE = os.environ['INSTANCE_TYPE']
 
 
 def lambda_handler(event, context):
@@ -92,7 +93,7 @@ def lambda_handler(event, context):
         
         response = ec2.run_instances(
             ImageId=amiID,
-            InstanceType='m5a.large',
+            InstanceType=INSTANCE_TYPE,
             MaxCount=1,
             MinCount=1,
             SecurityGroupIds=[
