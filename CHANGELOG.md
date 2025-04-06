@@ -1,5 +1,8 @@
 # Change Log
 
+## v1.2.2
+    * Updated publish.zsh to support dual-remote publishing to CloudSecOps-Org repositories.
+
 ## v1.2.1
     * Python v3.12.2.
     * `.python-version` file to support `pyenv`.
