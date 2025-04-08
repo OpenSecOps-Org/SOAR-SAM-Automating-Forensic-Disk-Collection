@@ -1,5 +1,9 @@
 # Change Log
 
+## v1.2.6
+    * Updated GitHub remote references in publish.zsh script to use only OpenSecOps-Org, removed Delegat-AB
+    * Updated default artifact bucket name from 'delegat-soar-forensic-artifacts' to 'OpenSecOps-soar-forensic-artifacts'
+
 ## v1.2.5
     * Updated GitHub organization name from CloudSecOps-Org to OpenSecOps-Org.
     * Updated references to CloudSecOps-Installer to Installer.

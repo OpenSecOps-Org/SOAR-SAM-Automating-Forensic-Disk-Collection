@@ -11,7 +11,7 @@ Parameters:
     Description: AWS Organizations ID to Allow use of KMS key
   ArtifactBucketName:
     Type: String
-    Default: delegat-soar-forensic-artifacts
+    Default: OpenSecOps-soar-forensic-artifacts
     Description: Base name for the regional S3 bucket used to store forensic artifacts (account ID and region will be added)
   ArtifactBucketExpirationInDays:
     Type: Number
