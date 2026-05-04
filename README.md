@@ -1,6 +1,6 @@
 # Automating Forensic Disk Collection
 
-[![Daily CVE scan](https://github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/actions/workflows/daily-scan.yml/badge.svg)](https://github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/actions/workflows/daily-scan.yml) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/badge)](https://scorecard.dev/viewer/?uri=github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection)
+[![Daily CVE scan](https://github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/actions/workflows/daily-scan.yml/badge.svg)](https://github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/actions/workflows/daily-scan.yml) [![OpenSSF Scorecard](https://github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/actions/workflows/scorecard.yml/badge.svg)](https://github.com/OpenSecOps-Org/SOAR-SAM-Automating-Forensic-Disk-Collection/actions/workflows/scorecard.yml)
 
 This is a SAM repackaging of Logan Bair's forensic disk collection automation as implemented for Goldman Sachs. The original package is described in this AWS blog post:
 
