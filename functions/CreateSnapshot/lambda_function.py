@@ -17,6 +17,7 @@
 '''
 
 import boto3
+from aws_errors import transient_aws_errors
 import os
 import uuid
 import time
@@ -27,6 +28,7 @@ evidenceBucket = os.environ['EVIDENCE_BUCKET']
 logGroup = os.environ['LOG_GROUP']
 
 
+@transient_aws_errors
 def lambda_handler(event, context):
     try:
         event = event['DiskProcess']

@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.4.0
+    * Fix: a single throttled AWS call in any step of the forensic workflow raised the error alert and abandoned the evidence collection; only the "not finished yet" polling was retried. Retries are now driven by named errors: the Lambdas raise throttling, AWS-side failures (5xx) and connection problems as `AWSTransientError`, keeping the original error as its cause, through the `aws_errors` module (distributed by the Installer, packaged in the new `AwsErrorsLayer`). Every Lambda step retries `AWSTransientError` and the Lambda service errors: 5 seconds, doubling, at most 300 seconds apart, full jitter, 20 attempts, before its catch raises the alert.
+    * Every retry rule has full jitter and waits at most 300 seconds. The polling rules (snapshot and copy completion, forensic instance readiness) keep their total time budget: `MaxAttempts` goes from 15 to 180, which with the cap and jitter waits about 7.3 hours in all, as before.
+    * `MountVolume` does not attach a volume that is already attached to the forensic instance, so a retry after a throttled call later in the function does not fail on the attach. The automation role gains `ec2:DescribeVolumes` for the check.
+    * `TerminateInstance` no longer ignores a throttled removal of termination protection; it is retried, so the termination that follows does not fail on the protection. Other failures of that call are still ignored, as before.
+    * A retry of `CreateSnapshot` after a throttle midway through an instance's volumes snapshots the volumes before it again: extra copies of the evidence, never fewer.
+    * New offline unit tests for the retry rules and the error handling.
+
 ## v1.3.6
     * Security: bump `urllib3` floor to `>=2.8.0` in `boto3.in` (distributed from canonical `Installer/templates/boto3.in`) to remediate CVE-2026-97687 (HTTPS-proxy TLS configuration ignored or overridden), CVE-2026-97688 (infinite loop on chunked Deflate responses) and CVE-2026-97689 (unbounded chunk-size-line buffering). All three are fixed in urllib3 2.8.0; the previous `>=2.7.0` floor resolved to 2.7.0, which is affected by all three. Locks recompiled with `--upgrade`; other transitive deps refreshed to their latest in-range versions as a side effect (no code or behaviour change).
 

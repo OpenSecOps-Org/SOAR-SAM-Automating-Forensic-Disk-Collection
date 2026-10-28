@@ -17,6 +17,7 @@
 '''
 
 import boto3
+from aws_errors import transient_aws_errors
 import os
 import uuid
 import random
@@ -50,6 +51,7 @@ securityGroup = os.environ['SECURITY_GROUP']
 INSTANCE_TYPE = os.environ['INSTANCE_TYPE']
 
 
+@transient_aws_errors
 def lambda_handler(event, context):
     try:
         

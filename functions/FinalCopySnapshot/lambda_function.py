@@ -17,11 +17,13 @@
 '''
 
 import boto3
+from aws_errors import transient_aws_errors
 import os
 import uuid
 
 encryptionKey = os.environ['KMS_KEY']
 
+@transient_aws_errors
 def lambda_handler(event, context):
     try:
         

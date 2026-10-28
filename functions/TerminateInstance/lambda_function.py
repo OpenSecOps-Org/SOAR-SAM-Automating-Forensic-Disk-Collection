@@ -1,11 +1,13 @@
 import os
 import boto3
+from aws_errors import is_transient, transient_aws_errors
 
 ROLE_NAME = os.environ['ROLE_NAME']
 
 sts_client = boto3.client('sts')
 
 
+@transient_aws_errors
 def lambda_handler(params, _context):
     print(params)
 
@@ -30,8 +32,9 @@ def lambda_handler(params, _context):
             InstanceId=instance_id,
         )
         print(response)
-    except Exception:
-        pass
+    except Exception as error:
+        if is_transient(error):
+            raise  # throttling must not leave termination protection on: the state machine retries it
 
     print(
         f"Terminating instance {instance_id} in account {account_id}, region {region}...")

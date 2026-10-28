@@ -17,6 +17,7 @@
 '''
 
 import boto3
+from aws_errors import transient_aws_errors
 import os
 import uuid
 import json
@@ -24,6 +25,7 @@ import json
 roleName = os.environ['ROLE_NAME']
 
 
+@transient_aws_errors
 def lambda_handler(event, context):
     try:
 

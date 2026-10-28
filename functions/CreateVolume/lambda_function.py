@@ -17,6 +17,7 @@
 '''
 
 import boto3
+from aws_errors import transient_aws_errors
 import os
 import uuid
 import random
@@ -25,6 +26,7 @@ import json
 encryptionKey = os.environ['KMS_KEY']
 availabilityZonesSuppported = os.environ['SUPPORTED_AZS']
 
+@transient_aws_errors
 def lambda_handler(event, context):
     try:
         

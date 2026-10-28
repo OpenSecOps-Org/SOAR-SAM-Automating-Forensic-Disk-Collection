@@ -17,6 +17,7 @@
 '''
 
 import boto3
+from aws_errors import transient_aws_errors
 import os
 import uuid
 import time
@@ -26,6 +27,7 @@ from datetime import datetime, timedelta
 logGroup = os.environ['LOG_GROUP']
 
 
+@transient_aws_errors
 def lambda_handler(event, context):
     try:
 
@@ -58,11 +60,13 @@ def lambda_handler(event, context):
                 event['ForensicInstances'][0]
             ))
 
-            vol = ec2.attach_volume(
-                Device='/dev/sdf',
-                InstanceId=event['ForensicInstances'][0],
-                VolumeId=event['ForensicVolumeID']
-            )
+            # A retry after a throttled call further down finds the volume attached already
+            if not attached_to(ec2, event['ForensicVolumeID'], event['ForensicInstances'][0]):
+                vol = ec2.attach_volume(
+                    Device='/dev/sdf',
+                    InstanceId=event['ForensicInstances'][0],
+                    VolumeId=event['ForensicVolumeID']
+                )
 
             obj = s3.put_object(
                 Body=json.dumps(event),
@@ -85,6 +89,11 @@ def lambda_handler(event, context):
             repr(e)
         ))
         raise
+
+
+def attached_to(ec2, volume_id, instance_id):
+    volume = ec2.describe_volumes(VolumeIds=[volume_id])['Volumes'][0]
+    return any(a['InstanceId'] == instance_id for a in volume.get('Attachments', []))
 
 
 def writeToCW(logEvent):
